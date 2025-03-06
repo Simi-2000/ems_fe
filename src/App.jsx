@@ -1,27 +1,17 @@
-import './App.css';
-import {BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import FooterComponent from './components/FooterComponent';
-import HeaderComponent from './components/HeaderComponent';
-import ListEmployeeComponent from './components/ListEmployeeComponent';
-import AddEmployeeComponent from './components/AddEmployeeComponent';
+import React from 'react';
+import StudentInfoBE from './components/StudentInfoBE';
+import ViewBE from './components/ViewBE'; // Update the path to the components folder
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-function App() {
+const App = () => {
   return (
-    <div>
-      <Router>
-        <HeaderComponent />
-        <div className= "container">
-          <Switch>
-              <Route exact path = "/" component = {ListEmployeeComponent}></Route>
-              <Route path = "/employees" component = {ListEmployeeComponent}></Route>
-              <Route path = "/add-employee" component = {AddEmployeeComponent} ></Route>
-              <Route path = "/edit-employee/:id" component = {AddEmployeeComponent}></Route>
-            </Switch>
-        </div>
-        <FooterComponent />
-        </Router>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<StudentInfoBE />} />
+        <Route path="/v" element={<ViewBE />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
