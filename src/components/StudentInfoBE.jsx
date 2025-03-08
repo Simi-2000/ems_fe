@@ -1,78 +1,110 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, CardBody, CardFooter, CardHeader, FormControl, Form } from 'react-bootstrap';
-import { useNavigate, useLocation } from "react-router-dom";
+import { Button, Card, TextField, Typography, Container, Grid } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 import obj from "../services/Service";
 
-const StudentRegistrationBE = () => {
+const StudentInfoBE = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [student, setStudent] = useState({
     studentName: "",
     studentDob: ""
-  })
-  const [students, setStudents] = useState([]);
+  });
   const [count, setCount] = useState(0);
 
+  // Handle form input changes
   function handleChange(event) {
     setStudent({ ...student, [event.target.name]: event.target.value });
   }
 
+  // Fetch data when the component mounts or when count changes
   useEffect(() => {
     getData();
-  }, [count])
+  }, [count]);
 
+  // Get student data from the backend
   async function getData() {
     const response = await obj.viewAllStudents();
     setCount(response.data.length);
   }
 
+  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     const response = await obj.insertStudent(student);
-    console.log(response)
-    if (response.status == 201) {
-      alert("User added successfully")
+    if (response.status === 201) {
+      alert("User added successfully");
     } else {
-      alert("Something went wrong")
+      alert("Something went wrong");
     }
     setStudent({
       studentName: "",
       studentDob: ""
-    })
+    });
     const response2 = await obj.viewAllStudents();
     setCount(response2.data.length);
-  }
+  };
 
-  function handleView() {
+  // Navigate to the view page
+  const handleView = () => {
     navigate("/v", {
       state: {
-        students: students,
+        students: [],
       }
     });
-  }
+  };
 
   return (
-    <div className="container w-50 mt-5">
-      <Card>
-        <CardHeader>
-          <h2>Register Here</h2>
-        </CardHeader>
-        <Form onSubmit={handleSubmit}>
-          <CardBody>
-            <FormControl type='text' name='studentName' onChange={handleChange} placeholder="Enter your name" value={student.studentName} required /><br />
-            <FormControl type='date' name='studentDob' onChange={handleChange} placeholder="Enter your date of birth" value={student.studentDob} required /><br />
-          </CardBody>
-          <CardFooter>
-            <Button variant='success' type='submit'>Register</Button>
-          </CardFooter>
-        </Form>
+    <Container maxWidth="sm" sx={{ mt: 5 }}>
+      <Card sx={{ padding: 2 }}>
+        <Typography variant="h5" align="center" sx={{ marginBottom: 2 }}>
+          Register Here
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Enter your name"
+                name="studentName"
+                value={student.studentName}
+                onChange={handleChange}
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                type="date"
+                label="Enter your date of birth"
+                name="studentDob"
+                value={student.studentDob}
+                onChange={handleChange}
+                required
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sx={{ textAlign: 'center', marginTop: 2 }}>
+              <Button variant="contained" color="success" type="submit">
+                Register
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
       </Card>
-      <h3 className="text-center mt-5">Total students : {count}</h3>
-      <div className="text-center">
-        <Button onClick={handleView}>View</Button>
-      </div>
-    </div>
-  )
-}
 
-export default StudentRegistrationBE;
+      <Typography variant="h6" align="center" sx={{ marginTop: 3 }}>
+        Total students: {count}
+      </Typography>
+
+      <Grid container justifyContent="center" sx={{ marginTop: 2 }}>
+        <Button variant="outlined" color="primary" onClick={handleView}>
+          View Students
+        </Button>
+      </Grid>
+    </Container>
+  );
+};
+
+export default StudentInfoBE;
