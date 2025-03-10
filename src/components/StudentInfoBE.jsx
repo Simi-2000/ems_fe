@@ -18,30 +18,42 @@ const StudentInfoBE = () => {
 
   // Fetch data when the component mounts or when count changes
   useEffect(() => {
-    getData();
+    try {
+      getData();
+    } catch (error) {
+      alert("error")
+    }
   }, [count]);
 
   // Get student data from the backend
   async function getData() {
-    const response = await obj.viewAllStudents();
+    try {
+      const response = await obj.viewAllStudents();
     setCount(response.data.length);
+    } catch (error) {
+      alert("error");  
+    }
   }
 
   // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const response = await obj.insertStudent(student);
-    if (response.status === 201) {
-      alert("User added successfully");
-    } else {
+    try {
+      const response = await obj.insertStudent(student);
+      if (response.status === 201) {
+        alert("User added successfully");
+      } else {
+        alert("Something went wrong");
+      }
+    }
+    catch (e) {
       alert("Something went wrong");
     }
     setStudent({
       studentName: "",
       studentDob: ""
     });
-    const response2 = await obj.viewAllStudents();
-    setCount(response2.data.length);
+
   };
 
   // Navigate to the view page

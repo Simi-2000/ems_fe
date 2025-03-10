@@ -128,8 +128,9 @@ const ViewBE = () => {
           <Table sx={{ minWidth: 650 }} aria-label="student table">
             <TableHead>
               <TableRow>
-                <TableCell>StudentId</TableCell>
+                <TableCell>#</TableCell>
                 <TableCell>Name</TableCell>
+                <TableCell>DOB</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -150,6 +151,19 @@ const ViewBE = () => {
                         />
                       ) : (
                         student.studentName
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {selectedId === student.studentId ? (
+                        <TextField
+                          name="studentDob"
+                          value={selectedStudent.studentDob}
+                          onChange={handleChange}
+                          variant="outlined"
+                          size="small"
+                        />
+                      ) : (
+                        student.studentDob
                       )}
                     </TableCell>
                     <TableCell>
