@@ -1,30 +1,54 @@
 import React from 'react';
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
 import StudentInfoBE from './components/StudentInfoBE';
-import ViewBE from './components/ViewBE'; // Make sure this path is correct
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ViewBE from './components/ViewBE';
+import { AppBar, Toolbar, Typography, Container, Button, Box } from '@mui/material';
 
-// Import Material-UI components
-import { AppBar, Toolbar, Typography, Container, Button } from '@mui/material';
+// Create simple components for Home, About, and Contact
+
+const About = () => (
+  <div>
+    <h2>About Page</h2>
+    <p>This app helps manage student information. It is built with React and Material-UI.</p>
+  </div>
+);
+
+const Contact = () => (
+  <div>
+    <h2>Contact Page</h2>
+    <p>If you have any questions, please contact us at contact@school.com.</p>
+  </div>
+);
 
 const App = () => {
   return (
     <BrowserRouter>
-      {/* Material UI AppBar for navigation header */}
+      {/* Material UI AppBar with navigation buttons */}
       <AppBar position="sticky">
-        <Toolbar sx={{ backgroundColor: '#e1bee7' }}> {/* Light Purple Background */}
+        <Toolbar sx={{ backgroundColor: '#81c784' }}>
           <Typography variant="h6" sx={{ fontFamily: 'Lora, serif', color: 'purple' }}>
             Student Information App
           </Typography>
+          <Box sx={{ marginLeft: 'auto' }}>
+            <Button color="inherit" component={Link} to="/" sx={{ color: 'purple' }}>
+              Home
+            </Button>
+            <Button color="inherit" component={Link} to="/about" sx={{ color: 'purple' }}>
+              About
+            </Button>
+            <Button color="inherit" component={Link} to="/contact" sx={{ color: 'purple' }}>
+              Contact
+            </Button>
+          </Box>
         </Toolbar>
       </AppBar>
-
       {/* Main content with full width and a gradient background */}
       <Container
         maxWidth={false}  // Set maxWidth to false for full-width layout
         style={{
           marginTop: '1px',
           padding: '20px',
-          background: 'linear-gradient(to right, #e1bee7,rgb(196, 165, 255))', // Double shade gradient (Light Purple to Lighter Purple)
+          background: 'linear-gradient(to right,rgb(86, 139, 98),rgb(224, 246, 199))', // Double shade gradient (Light Purple to Lighter Purple)
           borderRadius: '8px', // Optional: gives the container rounded corners
           width: '100%', // Ensures the container takes up full width
         }}

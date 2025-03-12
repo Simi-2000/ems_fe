@@ -19,4 +19,4 @@ class Service{
 }
 
 const obj=new Service();
-export default obj;
+export default obj; 

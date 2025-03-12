@@ -104,7 +104,7 @@ const ViewBE = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-1">
       <Typography variant="h4" gutterBottom>
         <br />
         View All Students
