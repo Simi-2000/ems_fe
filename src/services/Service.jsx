@@ -15,7 +15,9 @@ class Service{
   updateStudent(student_detail){
     return axios.put(baseURL +"update",student_detail)
   }
-  
+  deleteStudent(id){
+    return axios.delete(baseURL +"delete?studentId=" +id)
+  }
 }
 
 const obj=new Service();

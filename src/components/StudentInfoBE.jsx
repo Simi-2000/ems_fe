@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  TextField,
-  Typography,
-  Container,
-  Grid,
-} from "@mui/material";
+import { Button, Card, TextField, Typography, Container, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import obj from "../services/Service";
 
 const StudentInfoBE = () => {
   const navigate = useNavigate();
-  const [student, setStudent] = useState({ studentName: "", studentDob: "" });
+  const [student, setStudent] = useState({
+    studentName: "",
+    studentDob: "",
+    place: "",
+    address: "",
+    rollNumber: "",
+  });
   const [count, setCount] = useState(0);
 
-  // Handle form input changes
   function handleChange(event) {
     setStudent({ ...student, [event.target.name]: event.target.value });
   }
 
-  // Fetch data when the component mounts or when count changes
   useEffect(() => {
     try {
       getData();
@@ -29,7 +26,6 @@ const StudentInfoBE = () => {
     }
   }, [count]);
 
-  // Get student data from the backend
   async function getData() {
     try {
       const response = await obj.viewAllStudents();
@@ -39,11 +35,19 @@ const StudentInfoBE = () => {
     }
   }
 
-  // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await obj.insertStudent(student);
+      // Prepare data to be sent to backend (don't send student_id)
+      const studentData = {
+        studentName: student.studentName,
+        studentDob: student.studentDob,
+        place: student.place,
+        address: student.address,
+        rollNumber: student.rollNumber,
+      };
+
+      const response = await obj.insertStudent(studentData); // Send data without student_id
       if (response.status === 201) {
         alert("User added successfully");
       } else {
@@ -52,34 +56,40 @@ const StudentInfoBE = () => {
     } catch (e) {
       alert("Something went wrong");
     }
-    setStudent({ studentName: "", studentDob: "" });
+    // Reset the form after submission
+    setStudent({
+      studentName: "",
+      studentDob: "",
+      place: "",
+      address: "",
+      rollNumber: "",
+    });
   };
 
-  // Navigate to the view page
   const handleView = () => {
     navigate("/v", { state: { students: [] } });
   };
 
   return (
-    <Container>
-      <br></br>
-      <br></br>
-      <Container  maxWidth="lg">
+    <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+      <br />
+      <br />
+      <Container maxWidth="lg">
         <Card sx={{ padding: 2 }}>
-          <Typography variant="h5" align="center" sx={{fontFamily: 'Lora, serif', color: 'purple'}} >
+          <Typography variant="h5" align="center" sx={{ fontFamily: "Lora, serif", color: "purple" }}>
             Register Here
           </Typography>
-          <br></br><img
-                src="https://img.freepik.com/premium-vector/girl-logging-into-accounts_118167-6273.jpg"
-                alt="image"
-                style={{
-                  width: 190, // Reduced width
-                  height: 86, // Maintain aspect ratio
-                  objectFit: "cover", // Ensure the image covers the area without stretching
-                  margin: "0px 3px 3px 423px", // Add some space below the image
-
-                }}
-              />
+          <br />
+          <img
+            src="https://img.freepik.com/premium-vector/girl-logging-into-accounts_118167-6273.jpg"
+            alt="image"
+            style={{
+              width: 190,
+              height: 86,
+              objectFit: "cover",
+              margin: "0px 3px 3px 423px",
+            }}
+          />
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -102,6 +112,36 @@ const StudentInfoBE = () => {
                   onChange={handleChange}
                   required
                   InputLabelProps={{ shrink: true }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Enter your place"
+                  name="place"
+                  value={student.place}
+                  onChange={handleChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Enter your address"
+                  name="address"
+                  value={student.address}
+                  onChange={handleChange}
+                  required
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Enter your roll number"
+                  name="rollNumber"
+                  value={student.rollNumber}
+                  onChange={handleChange}
+                  required
                 />
               </Grid>
               <Grid item xs={12} sx={{ textAlign: "center", marginTop: 2 }}>

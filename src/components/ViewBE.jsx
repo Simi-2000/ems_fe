@@ -1,18 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Button,
-  TextField,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Typography,
-  CircularProgress,
-  TablePagination,
-} from '@mui/material';
+import { Button, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, CircularProgress, TablePagination } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import obj from "../services/Service"; // Assuming your API functions are here
 
@@ -23,6 +10,10 @@ const ViewBE = () => {
   const [selectedStudent, setSelectedStudent] = useState({
     studentId: 0,
     studentName: "",
+    studentDob: "",
+    place: "",
+    address: "",
+    rollNumber: "",
   });
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
@@ -93,6 +84,21 @@ const ViewBE = () => {
     setSelectedId(-1);
   };
 
+  // Handle delete student
+  const handleDelete = async (id) => {
+    if (window.confirm("Are you sure you want to delete this student?")) {
+      try {
+        const response = await obj.deleteStudent(id);
+        if (response.status === 200) {
+          alert('Student deleted successfully');
+          getData();
+        }
+      } catch (error) {
+        alert('Error deleting student');
+      }
+    }
+  };
+
   // Pagination handlers
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -131,6 +137,9 @@ const ViewBE = () => {
                 <TableCell>#</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>DOB</TableCell>
+                <TableCell>Place</TableCell>
+                <TableCell>Address</TableCell>
+                <TableCell>Roll Number</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -168,13 +177,66 @@ const ViewBE = () => {
                     </TableCell>
                     <TableCell>
                       {selectedId === student.studentId ? (
+                        <TextField
+                          name="place"
+                          value={selectedStudent.place}
+                          onChange={handleChange}
+                          variant="outlined"
+                          size="small"
+                        />
+                      ) : (
+                        student.place
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {selectedId === student.studentId ? (
+                        <TextField
+                          name="address"
+                          value={selectedStudent.address}
+                          onChange={handleChange}
+                          variant="outlined"
+                          size="small"
+                        />
+                      ) : (
+                        student.address
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {selectedId === student.studentId ? (
+                        <TextField
+                          name="rollNumber"
+                          value={selectedStudent.rollNumber}
+                          onChange={handleChange}
+                          variant="outlined"
+                          size="small"
+                        />
+                      ) : (
+                        student.rollNumber
+                      )}
+                    </TableCell>
+                    <TableCell>
+                      {selectedId === student.studentId ? (
                         <Button variant="contained" color="primary" onClick={handleSave}>
                           Save
                         </Button>
                       ) : (
-                        <Button variant="contained" color="primary" onClick={() => handleUpdate(student.studentId)}>
-                          Update
-                        </Button>
+                        <>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() => handleUpdate(student.studentId)}
+                            style={{ marginRight: '10px' }}
+                          >
+                            Update
+                          </Button>
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => handleDelete(student.studentId)}
+                          >
+                            Delete
+                          </Button>
+                        </>
                       )}
                     </TableCell>
                   </TableRow>
