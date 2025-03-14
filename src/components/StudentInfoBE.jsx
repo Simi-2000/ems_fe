@@ -44,7 +44,7 @@ const StudentInfoBE = () => {
         studentDob: student.studentDob,
         place: student.place,
         address: student.address,
-        rollNumber: student.rollNumber,
+        rollNumber: student.rollNumber || "", // Handle empty roll number properly
       };
 
       const response = await obj.insertStudent(studentData); // Send data without student_id
