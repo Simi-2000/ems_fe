@@ -8,12 +8,11 @@ const ViewBE = () => {
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [selectedId, setSelectedId] = useState(-1);
   const [selectedStudent, setSelectedStudent] = useState({
-    studentId: 0,
+    studentRollNo: 0,
     studentName: "",
     studentDob: "",
-    place: "",
-    address: "",
-    rollNumber: "",
+    studentPlace: "",
+    studentAddress: "",
   });
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(0);
@@ -139,7 +138,6 @@ const ViewBE = () => {
                 <TableCell>DOB</TableCell>
                 <TableCell>Place</TableCell>
                 <TableCell>Address</TableCell>
-                <TableCell>Roll Number</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
@@ -150,7 +148,7 @@ const ViewBE = () => {
                   <TableRow key={index}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>
-                      {selectedId === student.studentId ? (
+                      {selectedId === student.studentRollNo ? (
                         <TextField
                           name="studentName"
                           value={selectedStudent.studentName}
@@ -163,7 +161,7 @@ const ViewBE = () => {
                       )}
                     </TableCell>
                     <TableCell>
-                      {selectedId === student.studentId ? (
+                      {selectedId === student.studentRollNo ? (
                         <TextField
                           name="studentDob"
                           value={selectedStudent.studentDob}
@@ -176,46 +174,33 @@ const ViewBE = () => {
                       )}
                     </TableCell>
                     <TableCell>
-                      {selectedId === student.studentId ? (
+                      {selectedId === student.studentRollNo ? (
                         <TextField
-                          name="place"
-                          value={selectedStudent.place}
+                          name="studentPlace"
+                          value={selectedStudent.studentPlace}
                           onChange={handleChange}
                           variant="outlined"
                           size="small"
                         />
                       ) : (
-                        student.place
+                        student.studentPlace
                       )}
                     </TableCell>
                     <TableCell>
-                      {selectedId === student.studentId ? (
+                      {selectedId === student.studentRollNo ? (
                         <TextField
-                          name="address"
-                          value={selectedStudent.address}
+                          name="studentAddress"
+                          value={selectedStudent.studentAddress}
                           onChange={handleChange}
                           variant="outlined"
                           size="small"
                         />
                       ) : (
-                        student.address
+                        student.studentAddress
                       )}
                     </TableCell>
                     <TableCell>
-                      {selectedId === student.studentId ? (
-                        <TextField
-                          name="rollNumber"
-                          value={selectedStudent.rollNumber}
-                          onChange={handleChange}
-                          variant="outlined"
-                          size="small"
-                        />
-                      ) : (
-                        student.rollNumber
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      {selectedId === student.studentId ? (
+                      {selectedId === student.studentRollNo ? (
                         <Button variant="contained" color="primary" onClick={handleSave}>
                           Save
                         </Button>
@@ -224,7 +209,7 @@ const ViewBE = () => {
                           <Button
                             variant="contained"
                             color="primary"
-                            onClick={() => handleUpdate(student.studentId)}
+                            onClick={() => handleUpdate(student.studentRollNo)}
                             style={{ marginRight: '10px' }}
                           >
                             Update
@@ -232,7 +217,7 @@ const ViewBE = () => {
                           <Button
                             variant="contained"
                             color="secondary"
-                            onClick={() => handleDelete(student.studentId)}
+                            onClick={() => handleDelete(student.studentRollNo)}
                           >
                             Delete
                           </Button>

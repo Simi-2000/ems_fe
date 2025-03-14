@@ -26,9 +26,9 @@ const App = () => {
       {/* Material UI AppBar with navigation buttons */}
       <AppBar position="sticky">
         <Toolbar sx={{ backgroundColor: '#81c784' }}>
-          <Typography variant="h6" sx={{ fontFamily: 'Lora, serif', color: 'purple' }}>
+          <Button variant="h6" sx={{ fontFamily: 'Lora, serif', color: 'purple' }} href="/">
             Student Information App
-          </Typography>
+          </Button>
           <Box sx={{ marginLeft: 'auto' }}>
             <Button color="inherit" component={Link} to="/" sx={{ color: 'purple' }}>
               Home
@@ -46,6 +46,7 @@ const App = () => {
       <Container
         maxWidth={false}  // Set maxWidth to false for full-width layout
         style={{
+          minHeight: "92vh",
           marginTop: '1px',
           padding: '20px',
           background: 'linear-gradient(to right,rgb(86, 139, 98),rgb(224, 246, 199))', // Double shade gradient (Light Purple to Lighter Purple)
@@ -60,7 +61,7 @@ const App = () => {
             element={
               <>
                 <StudentInfoBE />
-                
+
               </>
             }
           />
@@ -70,27 +71,15 @@ const App = () => {
             element={
               <>
                 <ViewBE />
-                <Button variant="contained" color="secondary" href="/" style={{ marginTop: '20px' }}>
-                  Back to Student Information
-                </Button>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
               </>
-              
+
             }
-            
+
           />
         </Routes>
       </Container>
     </BrowserRouter>
-    
+
   );
 };
 

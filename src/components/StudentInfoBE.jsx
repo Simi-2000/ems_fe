@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Card, TextField, Typography, Container, Grid } from "@mui/material";
+import { Button, Card, TextField, Typography, Container, Grid, Grid2 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import obj from "../services/Service";
 
@@ -8,9 +8,8 @@ const StudentInfoBE = () => {
   const [student, setStudent] = useState({
     studentName: "",
     studentDob: "",
-    place: "",
-    address: "",
-    rollNumber: "",
+    studentPlace: "",
+    studentAddress: "",
   });
   const [count, setCount] = useState(0);
 
@@ -38,16 +37,7 @@ const StudentInfoBE = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      // Prepare data to be sent to backend (don't send student_id)
-      const studentData = {
-        studentName: student.studentName,
-        studentDob: student.studentDob,
-        place: student.place,
-        address: student.address,
-        rollNumber: student.rollNumber || "", // Handle empty roll number properly
-      };
-
-      const response = await obj.insertStudent(studentData); // Send data without student_id
+      const response = await obj.insertStudent(student);
       if (response.status === 201) {
         alert("User added successfully");
       } else {
@@ -60,9 +50,8 @@ const StudentInfoBE = () => {
     setStudent({
       studentName: "",
       studentDob: "",
-      place: "",
-      address: "",
-      rollNumber: "",
+      studentPlace: "",
+      studentAddress: "",
     });
   };
 
@@ -72,8 +61,6 @@ const StudentInfoBE = () => {
 
   return (
     <Container sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
-      <br />
-      <br />
       <Container maxWidth="lg">
         <Card sx={{ padding: 2 }}>
           <Typography variant="h5" align="center" sx={{ fontFamily: "Lora, serif", color: "purple" }}>
@@ -118,8 +105,8 @@ const StudentInfoBE = () => {
                 <TextField
                   fullWidth
                   label="Enter your place"
-                  name="place"
-                  value={student.place}
+                  name="studentPlace"
+                  value={student.studentPlace}
                   onChange={handleChange}
                   required
                 />
@@ -128,18 +115,8 @@ const StudentInfoBE = () => {
                 <TextField
                   fullWidth
                   label="Enter your address"
-                  name="address"
-                  value={student.address}
-                  onChange={handleChange}
-                  required
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Enter your roll number"
-                  name="rollNumber"
-                  value={student.rollNumber}
+                  name="studentAddress"
+                  value={student.studentAddress}
                   onChange={handleChange}
                   required
                 />
